@@ -1,6 +1,6 @@
 package com.example.springboot.dao;
 
-import com.example.springboot.entity.Category;
+import com.example.springboot.model.Category;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

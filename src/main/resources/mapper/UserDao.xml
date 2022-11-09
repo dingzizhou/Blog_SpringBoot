@@ -3,7 +3,7 @@
 <mapper namespace="com.example.springboot.dao.UserDao">
 
     <!--登录查询用户名和密码-->
-    <select id="findByUsernameAndPassword" resultType="com.example.springboot.entity.User">
+    <select id="findByUsernameAndPassword" resultType="com.example.springboot.model.User">
         select * from MyBlog.t_user
         where username = #{username} and password = #{password};
     </select>

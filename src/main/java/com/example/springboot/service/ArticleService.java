@@ -1,14 +1,15 @@
 package com.example.springboot.service;
 
-import com.example.springboot.entity.Article;
-import com.example.springboot.entity.Condition;
-import com.example.springboot.entity.Result;
+import com.example.springboot.model.Article;
+import com.example.springboot.model.Condition;
+import com.example.springboot.model.PageResult;
+import com.example.springboot.model.Result;
 
 public interface ArticleService {
 
-    Result listArticle(Condition condition);
+    PageResult<Article> listArticle(Condition condition);
 
-    Result getArticleById(int id);
+    Article getArticleById(int id);
 
     Result updateArticle(Article article);
 

@@ -1,6 +1,6 @@
 package com.example.springboot.dao;
 
-import com.example.springboot.entity.User;
+import com.example.springboot.model.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

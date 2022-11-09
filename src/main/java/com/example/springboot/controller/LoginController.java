@@ -1,8 +1,8 @@
-package com.example.springboot.controller.admin;
+package com.example.springboot.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.example.springboot.entity.Result;
-import com.example.springboot.entity.User;
+import com.example.springboot.model.Result;
+import com.example.springboot.model.User;
 import com.example.springboot.service.UserService;
 import com.example.springboot.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 public class LoginController {

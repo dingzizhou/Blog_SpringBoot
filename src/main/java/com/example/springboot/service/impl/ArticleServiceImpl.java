@@ -1,10 +1,12 @@
 package com.example.springboot.service.impl;
 
 import com.example.springboot.dao.ArticleDao;
-import com.example.springboot.entity.Condition;
-import com.example.springboot.entity.Result;
-import com.example.springboot.entity.Article;
+import com.example.springboot.model.Condition;
+import com.example.springboot.model.PageResult;
+import com.example.springboot.model.Result;
+import com.example.springboot.model.Article;
 import com.example.springboot.service.ArticleService;
+import com.example.springboot.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,24 +20,22 @@ import java.util.Map;
 public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private ArticleDao articleDao;
+    @Autowired
+    private RedisService redisService;
 
     @Override
-    public Result listArticle(Condition condition) {
-        List<Article> articleList = articleDao.adminArticleList(condition);
-        Map<Object, Object> map = new HashMap<>();
-        map.put("articleList",articleList);
-        int count = articleDao.ArticleListCount(condition);
-        map.put("count",count);
-        Result result = new Result(true,200,"success",map);
-        return result;
+    public PageResult<Article> listArticle(Condition condition) {
+        Integer count = articleDao.articleListCount(condition);
+        if(count == 0){
+            return new PageResult<>();
+        }
+        List<Article> articleList = articleDao.articleList(condition);
+        return new PageResult<>(articleList,count);
     }
+
     @Override
-    public Result getArticleById(int id) {
-        Map<Object, Object> map = new HashMap<>();
-        Article article = articleDao.getArticleById(id);
-        map.put("article",article);
-        Result result = new Result(true,200,"success",map);
-        return result;
+    public Article getArticleById(int id) {
+        return articleDao.getArticleById(id);
     }
     @Override
     @Transactional(rollbackFor = Exception.class)

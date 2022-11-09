@@ -1,13 +1,12 @@
 package com.example.springboot.service.impl;
 
 import com.example.springboot.dao.TagDao;
-import com.example.springboot.entity.Result;
-import com.example.springboot.entity.Tag;
+import com.example.springboot.model.Result;
+import com.example.springboot.model.Tag;
 import com.example.springboot.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -1,8 +1,8 @@
 package com.example.springboot.service.impl;
 
 import com.example.springboot.dao.CategoryDao;
-import com.example.springboot.entity.Category;
-import com.example.springboot.entity.Result;
+import com.example.springboot.model.Category;
+import com.example.springboot.model.Result;
 import com.example.springboot.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,8 @@
 package com.example.springboot.dao;
 
-import com.example.springboot.entity.Condition;
-import com.example.springboot.entity.Article;
-import com.example.springboot.entity.Tag;
+import com.example.springboot.model.Condition;
+import com.example.springboot.model.Article;
+import com.example.springboot.model.Tag;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -13,10 +13,9 @@ import java.util.List;
 @Repository
 public interface ArticleDao {
 
-//    后台查询文章
-    List<Article> adminArticleList(@Param("condition") Condition condition);
-//    后台文章数量查询
-    Integer ArticleListCount(@Param("condition") Condition condition);
+    List<Article> articleList(@Param("condition") Condition condition);
+    Integer articleListCount(@Param("condition") Condition condition);
+
 //    根据Id获取文章
     Article getArticleById(@Param("id") int id);
 //    更改是否置顶

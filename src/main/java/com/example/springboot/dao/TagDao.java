@@ -1,7 +1,7 @@
 package com.example.springboot.dao;
 
 
-import com.example.springboot.entity.Tag;
+import com.example.springboot.model.Tag;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
