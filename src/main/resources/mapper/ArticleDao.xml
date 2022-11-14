@@ -11,6 +11,7 @@
         <result column="isRecycler" property="isRecycler"/>
         <result column="createTime" property="createTime"/>
         <result column="updateTime" property="updateTime"/>
+        <result column="view" property="view"/>
         <association property="category" javaType="com.example.springboot.model.Category">
             <id column="category_id" property="id"/>
             <result column="category_name" property="name"/>
@@ -22,9 +23,9 @@
     </resultMap>
 
     <select id="articleList" resultMap="articleListMap">
-        select a.id,a.title,t_category.name category_name,t_tag.name tag_name,isTop,createTime,updateTime from
+        select a.id,a.title,t_category.name category_name,t_tag.name tag_name,isTop,createTime,updateTime,a.view from
         (
-            select t_article.id,istop,title,createTime,updateTime,category_id from t_article
+            select t_article.id,istop,title,createTime,updateTime,category_id,view from t_article
             <where>
                 1=1
                 <if test="condition.categoryId != null">
@@ -65,7 +66,7 @@
     </select>
 
     <select id="getArticleById" resultMap="articleListMap">
-        select t_article.id,t_article.title,t_article.cover,content,t_category.name category_name,t_category.id category_id,t_tag.name tag_name,t_tag.id tag_id,isTop,createTime,updateTime from t_article
+        select t_article.id,t_article.title,t_article.cover,content,t_category.name category_name,t_category.id category_id,t_tag.name tag_name,t_tag.id tag_id,isTop,createTime,updateTime,view from t_article
         left join t_article_tag on t_article.title = t_article_tag.title
         left join t_category on t_article.category_id=t_category.id
         left join t_tag on t_tag.name = t_article_tag.tag
@@ -103,4 +104,19 @@
             (#{title},#{tagList.name})
         </foreach>
     </insert>
+
+    <select id="getArticleView" resultType="com.example.springboot.model.dto.ArticleView">
+        select view,id from t_article;
+    </select>
+
+    <update id="saveArticleView">
+        update t_article
+        set view =
+        case id
+        <foreach collection="viewList" item="value" index="key">
+            when #{value.id} then #{value.view}
+        </foreach>
+        end
+    </update>
+
 </mapper>

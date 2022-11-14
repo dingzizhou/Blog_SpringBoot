@@ -29,5 +29,7 @@ public class Article {
     private String updateTime;
 //    标签列表
     private List<Tag> tagList;
+//    浏览量
+    private Double view;
 }
 

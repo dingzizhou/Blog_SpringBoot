@@ -5,6 +5,7 @@ import com.example.springboot.model.Condition;
 import com.example.springboot.model.PageResult;
 import com.example.springboot.model.Result;
 import com.example.springboot.model.Article;
+import com.example.springboot.model.dto.ArticleView;
 import com.example.springboot.service.ArticleService;
 import com.example.springboot.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import java.util.HashMap;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
+
+    @Autowired
+    private HttpSession httpSession;
+    @Autowired
+    private HttpServletRequest httpServletRequest;
     @Autowired
     private ArticleDao articleDao;
     @Autowired
@@ -34,9 +42,19 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Article getArticleById(int id) {
+    public Article getArticleById(Integer id) {
+        updateViewCount(id);
+//        saveViewList();
+        Article article = articleDao.getArticleById(id);
+//        System.out.println("View:"+redisService.zScore("ArticleViewList",id.toString()));
+        article.setView(redisService.zScore("ArticleViewList",id.toString()));
+        return article;
+    }
+    @Override
+    public Article getArticleById_Admin(Integer id){
         return articleDao.getArticleById(id);
     }
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Result updateArticle(Article article) {
@@ -68,12 +86,39 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Result updateIsTop(int id) {
+    public Result updateIsTop(Integer id) {
         if(articleDao.updateIsTop(id) == 1){
             return new Result(true,200,"success",null);
         }
         else{
             return new Result(false,500,"error",null);
         }
+    }
+
+    @Override
+    public List<ArticleView> getViewList(){
+        return articleDao.getArticleView();
+    }
+    @Override
+    public void saveViewList(){
+        Map<Object, Double> map = redisService.zAllScore("ArticleViewList");
+        List<ArticleView> list = new ArrayList<>();
+        for(Object key:map.keySet() ) {
+           list.add(new ArticleView((String) key, map.get(key)));
+        }
+        articleDao.saveArticleView(list);
+    }
+
+    @Override
+    public void updateViewCount(Integer id){
+//        System.out.println("获取到session："+httpServletRequest.getSession().toString());
+//        String session = httpServletRequest.getSession().toString();
+//        if(session != null){
+//            if(redisService.hyperGet(session)==0){
+//                redisService.hyperAdd("Viewed",session);
+//                redisService.hIncr("ArticleViewList",id.toString(), 1L);
+//            }
+//        }
+        redisService.zIncr("ArticleViewList",id.toString(), 1D);
     }
 }

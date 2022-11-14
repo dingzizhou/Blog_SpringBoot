@@ -27,7 +27,7 @@ public class ArticleController {
 
     @GetMapping("/admin/articleId")
     public Result<Article> getArticleById(int id){
-        return Result.ok(articleService.getArticleById(id));
+        return Result.ok(articleService.getArticleById_Admin(id));
     }
 
     @PostMapping("/admin/updateArticle")
