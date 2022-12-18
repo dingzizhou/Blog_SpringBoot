@@ -6,6 +6,7 @@ import com.example.springboot.model.PageResult;
 import com.example.springboot.model.Result;
 import com.example.springboot.model.Article;
 import com.example.springboot.model.dto.ArticleView;
+import com.example.springboot.model.enums.ResultCodeEnum;
 import com.example.springboot.service.ArticleService;
 import com.example.springboot.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,41 +58,41 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Result updateArticle(Article article) {
+    public Result<String> updateArticle(Article article) {
         try {
             articleDao.updateArticle(article);
-            articleDao.delArticleTag(article.getTitle(),null);
-            articleDao.addArticleTag(article.getTitle(), article.getTagList());
+            articleDao.delArticleTag(article.getId(),null);
+            if(article.getTagList().size() != 0) articleDao.addArticleTag(article.getId(), article.getTagList());
         }catch (Exception e){
             e.printStackTrace();
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return new Result(false,500,"error",null);
+            return new Result<>(ResultCodeEnum.FAIL.getCode(), ResultCodeEnum.FAIL.getDescribe(), null);
         }
-        return new Result(true,200,"success",null);
+        return new Result<>(ResultCodeEnum.SUCCESS.getCode(),ResultCodeEnum.SUCCESS.getDescribe(),null);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Result addArticle(Article article){
+    public Result<String> addArticle(Article article){
         try {
             articleDao.addArticle(article);
-            articleDao.addArticleTag(article.getTitle(),article.getTagList());
+            articleDao.addArticleTag(article.getId(),article.getTagList());
         }
         catch (Exception e){
             e.printStackTrace();
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return new Result(false,500,"error",null);
+            return Result.fail(null);
         }
-        return new Result(true,200,"success",null);
+        return Result.ok(null);
     }
 
     @Override
-    public Result updateIsTop(Integer id) {
+    public Result<Object> updateIsTop(Integer id) {
         if(articleDao.updateIsTop(id) == 1){
-            return new Result(true,200,"success",null);
+            return Result.ok(null);
         }
         else{
-            return new Result(false,500,"error",null);
+            return Result.fail();
         }
     }
 

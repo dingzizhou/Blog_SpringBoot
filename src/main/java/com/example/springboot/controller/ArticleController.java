@@ -1,6 +1,5 @@
 package com.example.springboot.controller;
 
-import com.alibaba.fastjson2.JSON;
 import com.example.springboot.model.Article;
 import com.example.springboot.model.Condition;
 import com.example.springboot.model.PageResult;
@@ -31,18 +30,18 @@ public class ArticleController {
     }
 
     @PostMapping("/admin/updateArticle")
-    public String updateArticle(@RequestBody Article article){
-        return JSON.toJSONString(articleService.updateArticle(article));
+    public Result<String> updateArticle(@RequestBody Article article){
+        return articleService.updateArticle(article);
     }
 
     @PostMapping("/admin/addArticle")
-    public String addArticle(@RequestBody Article article){
-        return JSON.toJSONString(articleService.addArticle(article));
+    public Result<String> addArticle(@RequestBody Article article){
+        return articleService.addArticle(article);
     }
 
     @PostMapping("/admin/article/changeIsTop")
-    public String updateIsTop(Integer id){
-        return JSON.toJSONString(articleService.updateIsTop(id));
+    public Result<Object> updateIsTop(Integer id){
+        return articleService.updateIsTop(id);
     }
 
     @GetMapping("/article/{articleId}")

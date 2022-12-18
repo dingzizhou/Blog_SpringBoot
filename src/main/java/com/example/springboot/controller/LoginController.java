@@ -20,18 +20,17 @@ public class LoginController {
     private UserService userService;
 
     @PostMapping("/login")
-    public String login(@RequestBody User user,
+    public Result<String> login(@RequestBody User user,
                         HttpSession session, RedirectAttributes attributes){
         User user_find = userService.checkUser(user.getUsername(),user.getPassword());
         if(user_find!=null){
             user_find.setPassword(null);
             String token = TokenUtil.sign(user_find);
-            Result result = new Result(true, 200, "登录成功", token);
-            return JSON.toJSONString(result);
+            Result<String> result = new Result<String>(200, "登录成功", token);
+            return result;
         }
         else{
-            Result result = new Result(false,500,"账号或者密码错误",null);
-            return JSON.toJSONString(result);
+            return Result.fail();
         }
     }
 }

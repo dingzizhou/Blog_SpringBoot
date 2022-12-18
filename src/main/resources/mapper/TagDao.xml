@@ -3,7 +3,13 @@
 <mapper namespace="com.example.springboot.dao.TagDao">
 
     <select id="listTag" resultType="com.example.springboot.model.Tag">
-        select * from MyBlog.t_tag
+        select * from t_tag
+    </select>
+
+    <select id="listTagCountList" resultType="com.example.springboot.model.vo.TagCountVO">
+        select tag_id,name,count(*) count from t_tag
+        left join t_article_tag tat on t_tag.id = tat.tag_id
+        group by tag_id, name
     </select>
 
 </mapper>

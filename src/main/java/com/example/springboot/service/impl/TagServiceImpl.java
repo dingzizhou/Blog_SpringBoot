@@ -3,6 +3,7 @@ package com.example.springboot.service.impl;
 import com.example.springboot.dao.TagDao;
 import com.example.springboot.model.Result;
 import com.example.springboot.model.Tag;
+import com.example.springboot.model.vo.TagCountVO;
 import com.example.springboot.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,18 @@ public class TagServiceImpl implements TagService {
     private TagDao tagDao;
 
     @Override
-    public Result listTag() {
-        Map<Object, Object> map = new HashMap<>();
+    public Result<List<Tag>> listTag() {
         List<Tag> tagList = tagDao.listTag();
-        map.put("tag",tagList);
-        Result result = new Result(true,200,"success",map);
-        return result;
+        return Result.ok(tagList);
+    }
+
+    @Override
+    public Result<Map<String,Object>> listTagCount() {
+        Map<String,Object> map = new HashMap<>();
+        List<TagCountVO> tagCountVOList = tagDao.listTagCountList();
+        Integer count = tagCountVOList.size();
+        map.put("tagList",tagCountVOList);
+        map.put("count",count);
+        return Result.ok(map);
     }
 }

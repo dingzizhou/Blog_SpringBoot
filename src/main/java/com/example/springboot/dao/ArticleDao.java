@@ -28,9 +28,9 @@ public interface ArticleDao {
 //    向文章表添加文章
     void addArticle(@Param("article") Article article);
 //    文章-标签表删除
-    void delArticleTag(@Param("article")String article,@Param("tag")String tag);
+    void delArticleTag(@Param("article_id") Integer article_id,@Param("tag_id") Integer tag_id);
 //    文章-标签表添加
-    void addArticleTag(@Param("title")String title,@Param("tagList") List<Tag> tagList);
+    void addArticleTag(@Param("article_id") Integer article_id,@Param("tagList") List<Tag> tagList);
 //    获取浏览量列表
 
     List<ArticleView> getArticleView();

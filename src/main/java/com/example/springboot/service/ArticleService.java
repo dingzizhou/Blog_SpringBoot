@@ -5,6 +5,7 @@ import com.example.springboot.model.Condition;
 import com.example.springboot.model.PageResult;
 import com.example.springboot.model.Result;
 import com.example.springboot.model.dto.ArticleView;
+import com.example.springboot.model.enums.ResultCodeEnum;
 
 import java.util.List;
 import java.util.Map;
@@ -16,11 +17,11 @@ public interface ArticleService {
     Article getArticleById(Integer id);
     Article getArticleById_Admin(Integer id);
 
-    Result updateArticle(Article article);
+    Result<String> updateArticle(Article article);
 
-    Result addArticle(Article article);
+    Result<String> addArticle(Article article);
 
-    Result updateIsTop(Integer id);
+    Result<Object> updateIsTop(Integer id);
 
     List<ArticleView> getViewList();
     void saveViewList();

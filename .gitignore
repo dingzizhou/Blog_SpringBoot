@@ -4,6 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### 忽略生产环境 ###
+/src/main/resources/application-pro.yml
+
 ### STS ###
 .apt_generated
 .classpath
